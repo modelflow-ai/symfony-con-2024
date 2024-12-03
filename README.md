@@ -11,7 +11,7 @@ Vienna.
 
 Slide can be found on this link:
 
-- [Github Pages](https://modelflow-ai.github.io/symfony-con-20204/index.html)
+- [Github Pages](https://modelflow-ai.github.io/symfony-con-2024/index.html)
 
 ## Live Coding Session
 
