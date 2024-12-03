@@ -92,3 +92,44 @@ protected function execute(InputInterface $input, OutputInterface $output): int
     return Command::SUCCESS;
 }
 ```
+
+Run the command and ask the chatbot a question:
+
+```bash
+bin/console app:chat
+```
+
+## Step 5: Add chat conversion handling
+
+Add a messages array to the execute method:
+
+```php
+protected function execute(InputInterface $input, OutputInterface $output): int
+{
+    $io = new SymfonyStyle($input, $output);
+
+    $messages = [];
+
+    while(true) {
+        $question = $io->ask('You');
+        if('exit' === $question) {
+            break;
+        }
+
+        $response = $this->chatRequestHandler
+            ->createRequest(...$messages)
+            ->addUserMessage($question)
+            ->build()
+            ->execute();
+
+        $io->success($response->getMessage()->content);
+
+        $messages = $response->getRequest()->getMessages();
+        $messages[] = new AIChatMessage(AIChatMessageRoleEnum::ASSISTANT, $response->getMessage()->content);
+    }
+
+    return Command::SUCCESS;
+}
+```
+
+This will allow the chatbot to remember the conversation history and provide more contextually relevant responses.

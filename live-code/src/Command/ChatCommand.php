@@ -3,6 +3,8 @@
 namespace App\Command;
 
 use ModelflowAi\Chat\AIChatRequestHandlerInterface;
+use ModelflowAi\Chat\Request\Message\AIChatMessage;
+use ModelflowAi\Chat\Request\Message\AIChatMessageRoleEnum;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -35,15 +37,25 @@ class ChatCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $question = $io->ask('You');
+        $messages = [];
 
-        $response = $this->chatRequestHandler
-            ->createRequest()
-            ->addUserMessage($question)
-            ->build()
-            ->execute();
+        while(true) {
+            $question = $io->ask('You');
+            if('exit' === $question) {
+                break;
+            }
 
-        $io->success($response->getMessage()->content);
+            $response = $this->chatRequestHandler
+                ->createRequest(...$messages)
+                ->addUserMessage($question)
+                ->build()
+                ->execute();
+
+            $io->success($response->getMessage()->content);
+
+            $messages = $response->getRequest()->getMessages();
+            $messages[] = new AIChatMessage(AIChatMessageRoleEnum::ASSISTANT, $response->getMessage()->content);
+        }
 
         return Command::SUCCESS;
     }
