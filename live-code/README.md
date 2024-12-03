@@ -172,3 +172,37 @@ Just add the streamed flag to the request and change the way to display the cont
     return Command::SUCCESS;
 }
 ```
+
+## Step 7: Configure Ollama Adapter and use it
+
+Add the Ollama adapter to the configuration:
+
+```yaml
+modelflow_ai:
+    providers:
+        openai:
+            enabled: true
+            credentials:
+                api_key: '%env(OPENAI_API_KEY)%'
+        ollama:
+            enabled: true
+
+    adapters:
+        gpt4o:
+            enabled: true
+        llama3_2:
+            enabled: true
+```
+
+Use the Ollama adapter in the command:
+
+```php
+/** @var AIChatResponseStream $response */
+$response = $this->chatRequestHandler
+    ->createRequest(...$messages)
+    ->addUserMessage($question)
+    ->addCriteria(ModelCriteria::LLAMA3_2)
+    ->streamed()
+    ->build()
+    ->execute();
+```

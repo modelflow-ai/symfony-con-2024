@@ -6,6 +6,7 @@ use ModelflowAi\Chat\AIChatRequestHandlerInterface;
 use ModelflowAi\Chat\Request\Message\AIChatMessage;
 use ModelflowAi\Chat\Request\Message\AIChatMessageRoleEnum;
 use ModelflowAi\Chat\Response\AIChatResponseStream;
+use ModelflowAi\Integration\Symfony\Criteria\ModelCriteria;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -50,6 +51,7 @@ class ChatCommand extends Command
             $response = $this->chatRequestHandler
                 ->createRequest(...$messages)
                 ->addUserMessage($question)
+                ->addCriteria(ModelCriteria::LLAMA3_2)
                 ->streamed()
                 ->build()
                 ->execute();

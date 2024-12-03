@@ -4,7 +4,11 @@ modelflow_ai:
             enabled: true
             credentials:
                 api_key: '%env(OPENAI_API_KEY)%'
+        ollama:
+            enabled: true
 
     adapters:
         gpt4o:
+            enabled: true
+        llama3_2:
             enabled: true
