@@ -53,3 +53,42 @@ modelflow_ai:
         gpt4o:
             enabled: true
 ```
+
+# Step 4: Create a Chatbot Command
+
+Create a new command to interact with the chatbot:
+
+```bash
+bin/console make:command app:chat
+```
+
+Add the service `ModelflowAi\Chat\AIChatRequestHandlerInterface` to the constructor of the command:
+
+```php
+public function __construct(
+    private AIChatRequestHandlerInterface $chatRequestHandler,
+) {
+    parent::__construct();
+}
+```
+
+Implement the command logic:
+
+```php
+protected function execute(InputInterface $input, OutputInterface $output): int
+{
+    $io = new SymfonyStyle($input, $output);
+
+    $question = $io->ask('You');
+
+    $response = $this->chatRequestHandler
+        ->createRequest()
+        ->addUserMessage($question)
+        ->build()
+        ->execute();
+
+    $io->success($response->getMessage()->content);
+
+    return Command::SUCCESS;
+}
+```
