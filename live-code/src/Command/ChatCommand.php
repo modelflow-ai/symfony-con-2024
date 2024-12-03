@@ -5,6 +5,7 @@ namespace App\Command;
 use ModelflowAi\Chat\AIChatRequestHandlerInterface;
 use ModelflowAi\Chat\Request\Message\AIChatMessage;
 use ModelflowAi\Chat\Request\Message\AIChatMessageRoleEnum;
+use ModelflowAi\Chat\Response\AIChatResponseStream;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -45,13 +46,19 @@ class ChatCommand extends Command
                 break;
             }
 
+            /** @var AIChatResponseStream $response */
             $response = $this->chatRequestHandler
                 ->createRequest(...$messages)
                 ->addUserMessage($question)
+                ->streamed()
                 ->build()
                 ->execute();
 
-            $io->success($response->getMessage()->content);
+            foreach ($response->getMessageStream() as $message) {
+                $io->write($message->content);
+            }
+
+            $io->newLine(2);
 
             $messages = $response->getRequest()->getMessages();
             $messages[] = new AIChatMessage(AIChatMessageRoleEnum::ASSISTANT, $response->getMessage()->content);

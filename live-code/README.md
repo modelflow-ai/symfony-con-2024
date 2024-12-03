@@ -133,3 +133,42 @@ protected function execute(InputInterface $input, OutputInterface $output): int
 ```
 
 This will allow the chatbot to remember the conversation history and provide more contextually relevant responses.
+
+## Step 6: Add streaming support
+
+Just add the streamed flag to the request and change the way to display the content:
+
+```php
+ protected function execute(InputInterface $input, OutputInterface $output): int
+{
+    $io = new SymfonyStyle($input, $output);
+
+    $messages = [];
+
+    while(true) {
+        $question = $io->ask('You');
+        if('exit' === $question) {
+            break;
+        }
+
+        /** @var AIChatResponseStream $response */
+        $response = $this->chatRequestHandler
+            ->createRequest(...$messages)
+            ->addUserMessage($question)
+            ->streamed()
+            ->build()
+            ->execute();
+
+        foreach ($response->getMessageStream() as $message) {
+            $io->write($message->content);
+        }
+
+        $io->newLine(2);
+
+        $messages = $response->getRequest()->getMessages();
+        $messages[] = new AIChatMessage(AIChatMessageRoleEnum::ASSISTANT, $response->getMessage()->content);
+    }
+
+    return Command::SUCCESS;
+}
+```
