@@ -25,3 +25,31 @@ composer require modelflow-ai/openai-adapter modelflow-ai/ollama-adapter
 # Install Symfony Maker Bundle
 composer require symfony/maker-bundle --dev
 ```
+
+## Step 3: Configure Modelflow AI with OpenAI Adapter
+
+As there is currently no symfony flex recipe for the Modelflow AI Bundle, you need to configure the bundle manually.
+
+```php
+<?php
+
+return [
+    ...
+    ModelflowAi\Integration\Symfony\ModelflowAiBundle::class => ['all' => true],
+];
+```
+
+```yaml
+# config/packages/modelflow_ai.yaml
+
+modelflow_ai:
+    providers:
+        openai:
+            enabled: true
+            credentials:
+                api_key: '%env(OPENAI_API_KEY)%'
+
+    adapters:
+        gpt4o:
+            enabled: true
+```
