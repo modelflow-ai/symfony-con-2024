@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg width="693.33" height="218.00" xmlns="http://www.w3.org/2000/svg">
+<svg width="451.67" height="268.00" xmlns="http://www.w3.org/2000/svg">
 <style>
 @font-face {
 	font-family: &apos;JetBrains Mono&apos;;
@@ -8,7 +8,7 @@
 	font-weight: normal;
 	font-style: normal;
 }
-</style><rect width="693.33" height="218.00" fill="#0d1117" x="0.00px" y="0.00px"/>
+</style><rect width="451.67" height="268.00" fill="#0d1117" x="0.00px" y="0.00px"/>
 <g font-family="JetBrains Mono" font-size="14.00px" fill="#e6edf3" clip-path="url(#terminalMask)">
 <text x="20.00px" y="36.80px" xml:space="preserve"><tspan fill="#ff7b72" font-weight="bold">&lt;?</tspan>php
 </text><text x="20.00px" y="53.60px" xml:space="preserve">
@@ -18,7 +18,10 @@
 </text><text x="20.00px" y="120.80px" xml:space="preserve">    <tspan fill="#ff7b72" font-weight="bold">-&gt;</tspan>build()
 </text><text x="20.00px" y="137.60px" xml:space="preserve">    <tspan fill="#ff7b72" font-weight="bold">-&gt;</tspan>execute();
 </text><text x="20.00px" y="154.40px" xml:space="preserve">
-</text><text x="20.00px" y="171.20px" xml:space="preserve">\file_put_contents(<tspan fill="#a5d6ff">&apos;image.png&apos;</tspan>, \stream_get_contents(<tspan fill="#79c0ff">$response</tspan><tspan fill="#ff7b72" font-weight="bold">-&gt;</tspan>stream()));
+</text><text x="20.00px" y="171.20px" xml:space="preserve">\file_put_contents(
+</text><text x="20.00px" y="188.00px" xml:space="preserve">   <tspan fill="#a5d6ff">&apos;image.webp&apos;</tspan>,
+</text><text x="20.00px" y="204.80px" xml:space="preserve">    \stream_get_contents(<tspan fill="#79c0ff">$response</tspan><tspan fill="#ff7b72" font-weight="bold">-&gt;</tspan>stream()),
+</text><text x="20.00px" y="221.60px" xml:space="preserve">);
 </text>
 </g>
 </svg>
